@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#111827">
+<meta name="theme-color" content="#2563eb">
+
 <title>三平方の定理計算機</title>
 
 <style>
@@ -11,26 +12,48 @@
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "Noto Sans JP", sans-serif;
-  background: #f3f4f6;
-  color: #111827;
-  transition: .25s;
+:root {
+  --bg: #f3f4f6;
+  --card: #ffffff;
+  --text: #111827;
+  --sub: #6b7280;
+  --border: #d1d5db;
+  --primary: #2563eb;
+  --primary2: #7c3aed;
+  --input: #ffffff;
+  --soft: #eff6ff;
 }
 
 body.dark {
-  background: #0b1120;
-  color: #f9fafb;
+  --bg: #080d19;
+  --card: #111827;
+  --text: #f9fafb;
+  --sub: #9ca3af;
+  --border: #374151;
+  --input: #1f2937;
+  --soft: #172554;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans JP",
+    sans-serif;
+  transition: background .25s, color .25s;
 }
 
 header {
-  padding: 28px 20px;
+  position: relative;
+  padding: 30px 20px;
   text-align: center;
-  background: linear-gradient(135deg, #2563eb, #7c3aed);
   color: white;
+  background:
+    linear-gradient(135deg, #2563eb, #7c3aed);
 }
 
 header h1 {
@@ -43,22 +66,37 @@ header p {
   opacity: .9;
 }
 
+.theme {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+
+  width: 42px;
+  height: 42px;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(255,255,255,.2);
+  color: white;
+
+  font-size: 19px;
+  cursor: pointer;
+}
+
 .container {
   width: min(900px, calc(100% - 24px));
   margin: 20px auto 40px;
 }
 
 .card {
-  background: white;
+  background: var(--card);
   border-radius: 20px;
   padding: 22px;
   margin-bottom: 18px;
-  box-shadow: 0 8px 30px rgba(0,0,0,.07);
-}
 
-.dark .card {
-  background: #111827;
-  box-shadow: 0 8px 30px rgba(0,0,0,.25);
+  box-shadow:
+    0 8px 30px rgba(0,0,0,.07);
 }
 
 .mode {
@@ -67,20 +105,18 @@ header p {
   margin-bottom: 20px;
 }
 
-.mode button,
-.action {
-  border: 0;
-  border-radius: 12px;
-  padding: 12px 15px;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 700;
-}
-
 .mode button {
   flex: 1;
+  padding: 12px;
+
+  border: 0;
+  border-radius: 12px;
+
   background: #e5e7eb;
   color: #374151;
+
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .dark .mode button {
@@ -89,7 +125,7 @@ header p {
 }
 
 .mode button.active {
-  background: #2563eb;
+  background: var(--primary);
   color: white;
 }
 
@@ -101,39 +137,71 @@ header p {
 
 .input-box label {
   display: block;
-  font-weight: 700;
   margin-bottom: 7px;
+  font-weight: 700;
 }
 
 .input-box input {
   width: 100%;
   padding: 14px;
-  border: 2px solid #d1d5db;
-  border-radius: 12px;
-  font-size: 18px;
-  outline: none;
-  background: white;
-  color: #111827;
-}
 
-.dark .input-box input {
-  background: #1f2937;
-  border-color: #374151;
-  color: white;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+
+  background: var(--input);
+  color: var(--text);
+
+  font-size: 19px;
+  outline: none;
 }
 
 .input-box input:focus {
-  border-color: #2563eb;
+  border-color: var(--primary);
 }
 
 .hint {
-  color: #6b7280;
-  font-size: 13px;
   margin-top: 6px;
+  color: var(--sub);
+  font-size: 13px;
 }
 
-.dark .hint {
-  color: #9ca3af;
+/* 数学キーボード */
+
+.math-keyboard {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+
+  margin-top: 12px;
+}
+
+.math-keyboard button {
+  min-height: 44px;
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  background: var(--input);
+  color: var(--text);
+
+  font-size: 17px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.math-keyboard button:hover {
+  border-color: var(--primary);
+}
+
+.math-keyboard button:active {
+  transform: scale(.97);
+}
+
+.keyboard-label {
+  margin-top: 16px;
+  color: var(--sub);
+  font-size: 13px;
 }
 
 .actions {
@@ -142,9 +210,21 @@ header p {
   margin-top: 18px;
 }
 
+.action {
+  border: 0;
+  border-radius: 12px;
+
+  padding: 13px 18px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
 .calculate {
   flex: 1;
-  background: #2563eb;
+  background: var(--primary);
   color: white;
 }
 
@@ -158,6 +238,24 @@ header p {
   color: white;
 }
 
+.error {
+  display: none;
+
+  margin-top: 15px;
+  padding: 14px;
+
+  border-radius: 12px;
+
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.error.show {
+  display: block;
+}
+
+/* 結果 */
+
 .result {
   display: none;
 }
@@ -167,41 +265,37 @@ header p {
 }
 
 .answer {
+  padding: 22px;
+
   text-align: center;
-  padding: 20px;
-  border-radius: 16px;
-  background: #eff6ff;
+
+  border-radius: 17px;
+
+  background: var(--soft);
   border: 2px solid #bfdbfe;
 }
 
-.dark .answer {
-  background: #172554;
-  border-color: #1d4ed8;
-}
-
 .answer .label {
+  color: var(--sub);
   font-size: 14px;
-  opacity: .8;
 }
 
 .answer .number {
-  font-size: 42px;
-  font-weight: 800;
-  color: #2563eb;
-  margin: 5px 0;
-}
+  margin: 4px 0;
 
-.dark .answer .number {
-  color: #60a5fa;
+  color: var(--primary);
+
+  font-size: 44px;
+  font-weight: 900;
 }
 
 .exact {
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
 }
 
 .steps {
-  margin-top: 18px;
+  margin-top: 20px;
 }
 
 .steps h2 {
@@ -209,24 +303,29 @@ header p {
 }
 
 .step {
-  padding: 13px 15px;
-  background: #f9fafb;
-  border-radius: 12px;
   margin: 8px 0;
-  font-family: "Times New Roman", serif;
-  font-size: 18px;
-}
+  padding: 14px;
 
-.dark .step {
-  background: #1f2937;
+  border-radius: 12px;
+
+  background: rgba(127,127,127,.08);
+
+  font-family:
+    "Times New Roman",
+    "Noto Serif JP",
+    serif;
+
+  font-size: 19px;
 }
 
 .info {
+  margin-top: 16px;
   padding: 14px;
+
   border-radius: 12px;
+
   background: #fef3c7;
   color: #78350f;
-  margin-top: 15px;
 }
 
 .dark .info {
@@ -234,31 +333,22 @@ header p {
   color: #fde68a;
 }
 
-.error {
-  display: none;
-  padding: 14px;
-  border-radius: 12px;
-  background: #fee2e2;
-  color: #991b1b;
-  margin-top: 15px;
-}
-
-.error.show {
-  display: block;
-}
+/* 定理 */
 
 .theorem {
-  text-align: center;
-  font-size: 25px;
-  font-weight: 800;
   padding: 18px;
-  background: #f9fafb;
+
+  text-align: center;
+
   border-radius: 15px;
+
+  background: rgba(127,127,127,.08);
+
+  font-size: 27px;
+  font-weight: 900;
 }
 
-.dark .theorem {
-  background: #1f2937;
-}
+/* 例 */
 
 .examples {
   display: grid;
@@ -267,47 +357,31 @@ header p {
 }
 
 .example {
-  padding: 14px;
+  padding: 15px;
+
+  border: 1px solid var(--border);
   border-radius: 12px;
-  border: 1px solid #d1d5db;
+
   background: transparent;
+  color: var(--text);
+
   cursor: pointer;
-  color: inherit;
 }
 
 .example:hover {
-  border-color: #2563eb;
+  border-color: var(--primary);
 }
 
 footer {
-  text-align: center;
-  color: #6b7280;
-  font-size: 13px;
   padding: 10px;
-}
+  text-align: center;
 
-.dark footer {
-  color: #9ca3af;
-}
-
-.top-buttons {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-}
-
-.theme {
-  border: 0;
-  background: rgba(255,255,255,.2);
-  color: white;
-  border-radius: 50%;
-  width: 42px;
-  height: 42px;
-  cursor: pointer;
-  font-size: 19px;
+  color: var(--sub);
+  font-size: 13px;
 }
 
 @media (max-width: 650px) {
+
   header h1 {
     font-size: 23px;
   }
@@ -324,8 +398,16 @@ footer {
     flex-direction: column;
   }
 
+  .math-keyboard {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
   .answer .number {
-    font-size: 36px;
+    font-size: 37px;
+  }
+
+  .theorem {
+    font-size: 23px;
   }
 }
 </style>
@@ -334,178 +416,321 @@ footer {
 <body>
 
 <header>
-  <div class="top-buttons">
-    <button class="theme" onclick="toggleTheme()" id="themeBtn">🌙</button>
-  </div>
 
-  <h1>📐 三平方の定理計算機</h1>
-  <p>直角三角形の辺を入力するだけで自動計算</p>
+<button class="theme" id="themeBtn" onclick="toggleTheme()">
+🌙
+</button>
+
+<h1>📐 三平方の定理計算機</h1>
+
+<p>
+√・小数・整数に対応した直角三角形計算ツール
+</p>
+
 </header>
 
 <div class="container">
 
-  <div class="card">
+<!-- 入力 -->
 
-    <div class="mode">
-      <button class="active" onclick="setMode('two')" id="twoBtn">
-        2辺から計算
-      </button>
-      <button onclick="setMode('one')" id="oneBtn">
-        1辺＋他の条件
-      </button>
-    </div>
+<div class="card">
 
-    <div id="twoMode">
+<div class="mode">
 
-      <div class="inputs">
+<button
+  id="twoBtn"
+  class="active"
+  onclick="setMode('two')">
 
-        <div class="input-box">
-          <label>辺 a</label>
-          <input type="number" id="a" min="0" step="any"
-                 placeholder="例：3">
-          <div class="hint">直角をはさむ辺</div>
-        </div>
+2辺から計算
 
-        <div class="input-box">
-          <label>辺 b</label>
-          <input type="number" id="b" min="0" step="any"
-                 placeholder="例：4">
-          <div class="hint">直角をはさむ辺</div>
-        </div>
+</button>
 
-        <div class="input-box">
-          <label>辺 c</label>
-          <input type="number" id="c" min="0" step="any"
-                 placeholder="例：5">
-          <div class="hint">斜辺</div>
-        </div>
+<button
+  id="oneBtn"
+  onclick="setMode('one')">
 
-      </div>
+1辺＋条件
 
-      <div class="hint" style="margin-top:12px">
-        ※ 3つのうち<strong>2つだけ</strong>入力してください。
-      </div>
-
-      <div class="actions">
-        <button class="action calculate" onclick="calculate()">
-          🧮 計算する
-        </button>
-        <button class="action reset" onclick="resetAll()">
-          ↺ リセット
-        </button>
-      </div>
-
-      <div class="error" id="error"></div>
-
-    </div>
-
-    <div id="oneMode" style="display:none">
-
-      <div class="inputs">
-
-        <div class="input-box">
-          <label>既知の辺</label>
-          <input type="number" id="known" min="0" step="any"
-                 placeholder="例：5">
-        </div>
-
-        <div class="input-box">
-          <label>もう一方の辺</label>
-          <input type="number" id="known2" min="0" step="any"
-                 placeholder="例：3">
-        </div>
-
-      </div>
-
-      <div class="hint" style="margin-top:12px">
-        2つの辺を入力すると、残りの辺を計算できます。
-      </div>
-
-      <div class="actions">
-        <button class="action calculate" onclick="calculate()">
-          🧮 計算する
-        </button>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <h2>📖 三平方の定理</h2>
-
-    <div class="theorem">
-      a² ＋ b² ＝ c²
-    </div>
-
-    <p>
-      直角三角形では、直角をはさむ2辺の2乗の和が、
-      斜辺の2乗に等しくなります。
-    </p>
-
-  </div>
-
-  <div class="card result" id="result">
-
-    <div class="answer">
-
-      <div class="label" id="answerLabel">計算結果</div>
-
-      <div class="number" id="answerNumber">5</div>
-
-      <div class="exact" id="exactNumber"></div>
-
-    </div>
-
-    <div class="steps">
-
-      <h2>📝 計算過程</h2>
-
-      <div id="steps"></div>
-
-    </div>
-
-    <div class="info" id="triangleInfo"></div>
-
-  </div>
-
-  <div class="card">
-
-    <h2>⚡ よく使う例</h2>
-
-    <div class="examples">
-
-      <button class="example" onclick="example(3,4,null)">
-        <strong>3・4・?</strong><br>
-        → 5
-      </button>
-
-      <button class="example" onclick="example(5,12,null)">
-        <strong>5・12・?</strong><br>
-        → 13
-      </button>
-
-      <button class="example" onclick="example(8,15,null)">
-        <strong>8・15・?</strong><br>
-        → 17
-      </button>
-
-    </div>
-
-  </div>
+</button>
 
 </div>
 
+
+<div id="twoMode">
+
+<div class="inputs">
+
+<div class="input-box">
+
+<label>辺 a</label>
+
+<input
+  id="a"
+  type="text"
+  inputmode="text"
+  autocomplete="off"
+  placeholder="例：3、√2">
+
+<div class="hint">
+直角をはさむ辺
+</div>
+
+</div>
+
+
+<div class="input-box">
+
+<label>辺 b</label>
+
+<input
+  id="b"
+  type="text"
+  inputmode="text"
+  autocomplete="off"
+  placeholder="例：4、3√2">
+
+<div class="hint">
+直角をはさむ辺
+</div>
+
+</div>
+
+
+<div class="input-box">
+
+<label>辺 c</label>
+
+<input
+  id="c"
+  type="text"
+  inputmode="text"
+  autocomplete="off"
+  placeholder="例：5、√13">
+
+<div class="hint">
+斜辺
+</div>
+
+</div>
+
+</div>
+
+
+<div class="keyboard-label">
+数学入力ボタン
+</div>
+
+<div class="math-keyboard">
+
+<button onclick="insertSymbol('√')">√</button>
+<button onclick="insertSymbol('²')">²</button>
+<button onclick="insertSymbol('(')">(</button>
+<button onclick="insertSymbol(')')">)</button>
+<button onclick="insertSymbol('＋')">＋</button>
+
+<button onclick="insertSymbol('−')">−</button>
+<button onclick="insertSymbol('×')">×</button>
+<button onclick="insertSymbol('÷')">÷</button>
+<button onclick="insertSymbol('.')">.</button>
+<button onclick="backspace()">⌫</button>
+
+</div>
+
+
+<div class="hint">
+例：√2、3√2、√(5)、2.5 など
+</div>
+
+
+<div class="actions">
+
+<button
+  class="action calculate"
+  onclick="calculate()">
+
+🧮 計算する
+
+</button>
+
+<button
+  class="action reset"
+  onclick="resetAll()">
+
+↺ リセット
+
+</button>
+
+</div>
+
+
+<div class="error" id="error"></div>
+
+</div>
+
+
+<!-- もう一つのモード -->
+
+<div id="oneMode" style="display:none">
+
+<div class="inputs">
+
+<div class="input-box">
+
+<label>既知の辺</label>
+
+<input
+  id="known"
+  type="text"
+  inputmode="text"
+  placeholder="例：5、√13">
+
+</div>
+
+<div class="input-box">
+
+<label>もう一方の辺</label>
+
+<input
+  id="known2"
+  type="text"
+  inputmode="text"
+  placeholder="例：3、√5">
+
+</div>
+
+</div>
+
+<div class="hint" style="margin-top:12px">
+大きい方を斜辺として自動判定します。
+</div>
+
+<div class="actions">
+
+<button
+  class="action calculate"
+  onclick="calculate()">
+
+🧮 計算する
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- 定理 -->
+
+<div class="card">
+
+<h2>📖 三平方の定理</h2>
+
+<div class="theorem">
+a² ＋ b² ＝ c²
+</div>
+
+<p>
+直角三角形では、直角をはさむ2辺の2乗の和が
+斜辺の2乗に等しくなります。
+</p>
+
+</div>
+
+
+<!-- 結果 -->
+
+<div class="card result" id="result">
+
+<div class="answer">
+
+<div class="label" id="answerLabel">
+計算結果
+</div>
+
+<div class="number" id="answerNumber">
+5
+</div>
+
+<div class="exact" id="exactNumber"></div>
+
+</div>
+
+
+<div class="steps">
+
+<h2>📝 計算過程</h2>
+
+<div id="steps"></div>
+
+</div>
+
+
+<div class="info" id="triangleInfo">
+</div>
+
+</div>
+
+
+<!-- 例 -->
+
+<div class="card">
+
+<h2>⚡ よく使う例</h2>
+
+<div class="examples">
+
+<button
+  class="example"
+  onclick="example('3','4','')">
+
+<strong>3・4・?</strong><br>
+→ 5
+
+</button>
+
+<button
+  class="example"
+  onclick="example('5','12','')">
+
+<strong>5・12・?</strong><br>
+→ 13
+
+</button>
+
+<button
+  class="example"
+  onclick="example('√2','√2','')">
+
+<strong>√2・√2・?</strong><br>
+→ 2
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
 <footer>
-  三平方の定理計算機
+三平方の定理計算機
 </footer>
 
+
 <script>
+
+/* =========================
+   モード
+========================= */
 
 let currentMode = "two";
 
 function setMode(mode) {
+
   currentMode = mode;
 
   document.getElementById("twoMode").style.display =
@@ -515,15 +740,246 @@ function setMode(mode) {
     mode === "one" ? "block" : "none";
 
   document.getElementById("twoBtn").classList.toggle(
-    "active", mode === "two"
+    "active",
+    mode === "two"
   );
 
   document.getElementById("oneBtn").classList.toggle(
-    "active", mode === "one"
+    "active",
+    mode === "one"
   );
 }
 
+
+/* =========================
+   数式入力
+========================= */
+
+let activeInput = null;
+
+document.querySelectorAll("input").forEach(input => {
+
+  input.addEventListener("focus", () => {
+    activeInput = input;
+  });
+
+});
+
+
+function insertSymbol(symbol) {
+
+  if (!activeInput) {
+
+    activeInput =
+      document.querySelector("#a");
+
+    activeInput.focus();
+
+  }
+
+  const start = activeInput.selectionStart;
+  const end = activeInput.selectionEnd;
+
+  const value = activeInput.value;
+
+  activeInput.value =
+    value.substring(0,start) +
+    symbol +
+    value.substring(end);
+
+  const pos = start + symbol.length;
+
+  activeInput.setSelectionRange(pos,pos);
+
+  activeInput.focus();
+}
+
+
+function backspace() {
+
+  if (!activeInput) return;
+
+  const start = activeInput.selectionStart;
+  const end = activeInput.selectionEnd;
+
+  const value = activeInput.value;
+
+  if (start !== end) {
+
+    activeInput.value =
+      value.substring(0,start) +
+      value.substring(end);
+
+    activeInput.setSelectionRange(start,start);
+
+    return;
+  }
+
+  if (start > 0) {
+
+    activeInput.value =
+      value.substring(0,start-1) +
+      value.substring(start);
+
+    activeInput.setSelectionRange(
+      start-1,
+      start-1
+    );
+  }
+}
+
+
+/* =========================
+   √・数式を数値化
+========================= */
+
+function parseMathValue(input) {
+
+  if (input === null || input === undefined) {
+    return null;
+  }
+
+  let s = String(input)
+    .trim()
+    .replace(/\s/g,"")
+    .replace(/ｒ/g,"r")
+    .replace(/Ｒ/g,"R")
+    .replace(/√/g,"sqrt")
+    .replace(/＋/g,"+")
+    .replace(/−/g,"-")
+    .replace(/×/g,"*")
+    .replace(/÷/g,"/")
+    .replace(/²/g,"^2");
+
+  if (s === "") {
+    return null;
+  }
+
+
+  /*
+    普通の数字
+  */
+
+  if (/^\d+(\.\d+)?$/.test(s)) {
+    return Number(s);
+  }
+
+
+  /*
+    √n
+  */
+
+  let match =
+    s.match(/^sqrt\((\d+(?:\.\d+)?)\)$/);
+
+  if (match) {
+
+    const n = Number(match[1]);
+
+    if (n < 0) return NaN;
+
+    return Math.sqrt(n);
+  }
+
+
+  match =
+    s.match(/^sqrt(\d+(?:\.\d+)?)$/);
+
+  if (match) {
+
+    const n = Number(match[1]);
+
+    if (n < 0) return NaN;
+
+    return Math.sqrt(n);
+  }
+
+
+  /*
+    n√m
+  */
+
+  match =
+    s.match(/^(\d+(?:\.\d+)?)sqrt(\d+(?:\.\d+)?)$/);
+
+  if (match) {
+
+    const outside = Number(match[1]);
+    const inside = Number(match[2]);
+
+    if (inside < 0) return NaN;
+
+    return outside * Math.sqrt(inside);
+  }
+
+
+  /*
+    √m × n
+  */
+
+  match =
+    s.match(/^sqrt\((\d+(?:\.\d+)?)\)\*(\d+(?:\.\d+)?)$/);
+
+  if (match) {
+
+    return Math.sqrt(Number(match[1]))
+      * Number(match[2]);
+  }
+
+
+  /*
+    単純な加減乗除
+    例：
+    √2+√3
+  */
+
+  try {
+
+    let expression = s;
+
+    expression =
+      expression.replace(
+        /sqrt\((\d+(?:\.\d+)?)\)/g,
+        "Math.sqrt($1)"
+      );
+
+    expression =
+      expression.replace(
+        /sqrt(\d+(?:\.\d+)?)/g,
+        "Math.sqrt($1)"
+      );
+
+    if (!/^[0-9+\-*/().Mathsqrt]+$/.test(expression)) {
+      return NaN;
+    }
+
+    const result =
+      Function('"use strict"; return (' +
+        expression +
+      ')')();
+
+    if (
+      typeof result !== "number" ||
+      !Number.isFinite(result)
+    ) {
+      return NaN;
+    }
+
+    return result;
+
+  } catch {
+
+    return NaN;
+  }
+}
+
+
+/* =========================
+   表示用
+========================= */
+
 function cleanNumber(n) {
+
   if (Math.abs(n - Math.round(n)) < 1e-10) {
     return String(Math.round(n));
   }
@@ -531,39 +987,100 @@ function cleanNumber(n) {
   return Number(n.toFixed(10)).toString();
 }
 
-function sqrtExact(value) {
 
-  const root = Math.sqrt(value);
+/*
+  平方根をできるだけ簡単にする
+  例：
+  √12 → 2√3
+  √18 → 3√2
+*/
 
-  if (Number.isInteger(root)) {
-    return String(root);
+function simplifySqrt(n) {
+
+  if (n < 0) return null;
+
+  const rounded = Math.round(n);
+
+  const root = Math.sqrt(n);
+
+  if (
+    Math.abs(root - Math.round(root)) < 1e-10
+  ) {
+    return String(Math.round(root));
   }
 
-  // 簡単な平方因数を探す
   let outside = 1;
-  let inside = Math.round(value);
+  let inside = rounded;
 
   for (let i = 2; i * i <= inside; i++) {
+
     while (inside % (i * i) === 0) {
+
       outside *= i;
       inside /= i * i;
+
     }
   }
 
-  if (outside !== 1) {
-    if (inside === 1) return String(outside);
-    return outside + "√" + inside;
+  if (outside === 1) {
+    return "√" + cleanNumber(n);
   }
 
-  return "√" + cleanNumber(value);
+  if (inside === 1) {
+    return String(outside);
+  }
+
+  return outside + "√" + inside;
 }
+
+
+/* =========================
+   入力取得
+========================= */
+
+function getValue(id) {
+
+  const value =
+    document.getElementById(id).value;
+
+  return parseMathValue(value);
+}
+
+
+/* =========================
+   エラー
+========================= */
+
+function showError(message) {
+
+  const error =
+    document.getElementById("error");
+
+  error.textContent = "⚠️ " + message;
+
+  error.classList.add("show");
+}
+
+
+/* =========================
+   計算
+========================= */
 
 function calculate() {
 
-  const error = document.getElementById("error");
+  const error =
+    document.getElementById("error");
+
   error.classList.remove("show");
 
-  let a, b, c, answer, label, steps = [];
+
+  let a, b, c;
+  let answer;
+  let label;
+  let steps = [];
+
+
+  /* 2辺から計算 */
 
   if (currentMode === "two") {
 
@@ -571,25 +1088,48 @@ function calculate() {
     b = getValue("b");
     c = getValue("c");
 
-    const count = [a,b,c].filter(x => x !== null).length;
+    const count =
+      [a,b,c].filter(
+        x => x !== null
+      ).length;
 
     if (count !== 2) {
-      showError("a・b・cのうち、2つだけ入力してください。");
+
+      showError(
+        "a・b・cのうち、2つだけ入力してください。"
+      );
+
       return;
     }
 
-    if ([a,b,c].some(x => x !== null && x <= 0)) {
-      showError("辺の長さは0より大きい数にしてください。");
+
+    if (
+      [a,b,c].some(
+        x => x !== null &&
+        (!Number.isFinite(x) || x <= 0)
+      )
+    ) {
+
+      showError(
+        "辺の長さを正しく入力してください。"
+      );
+
       return;
     }
+
+
+    /* cを求める */
 
     if (c === null) {
 
-      answer = Math.sqrt(a*a + b*b);
+      answer =
+        Math.sqrt(a*a + b*b);
+
       label = "斜辺 c";
 
+
       steps.push(
-        `c² = a² ＋ b²`
+        "c² = a² ＋ b²"
       );
 
       steps.push(
@@ -601,143 +1141,274 @@ function calculate() {
       );
 
       steps.push(
-        `c = √${cleanNumber(a*a + b*b)}`
+        `c = ${simplifySqrt(a*a + b*b)}`
       );
 
-      steps.push(
-        `c = ${cleanNumber(answer)}`
-      );
 
-    } else if (a === null) {
+    }
+
+    /* aを求める */
+
+    else if (a === null) {
 
       if (c <= b) {
-        showError("斜辺 c は b より長くなければなりません。");
+
+        showError(
+          "斜辺 c は b より長くなければなりません。"
+        );
+
         return;
       }
 
-      answer = Math.sqrt(c*c - b*b);
+      answer =
+        Math.sqrt(c*c - b*b);
+
       label = "辺 a";
 
-      steps.push(`a² = c² − b²`);
+
+      steps.push(
+        "a² = c² − b²"
+      );
+
       steps.push(
         `a² = ${cleanNumber(c)}² − ${cleanNumber(b)}²`
       );
+
       steps.push(
         `a² = ${cleanNumber(c*c - b*b)}`
       );
-      steps.push(
-        `a = √${cleanNumber(c*c - b*b)}`
-      );
-      steps.push(`a = ${cleanNumber(answer)}`);
 
-    } else {
+      steps.push(
+        `a = ${simplifySqrt(c*c - b*b)}`
+      );
+
+    }
+
+    /* bを求める */
+
+    else {
 
       if (c <= a) {
-        showError("斜辺 c は a より長くなければなりません。");
+
+        showError(
+          "斜辺 c は a より長くなければなりません。"
+        );
+
         return;
       }
 
-      answer = Math.sqrt(c*c - a*a);
+      answer =
+        Math.sqrt(c*c - a*a);
+
       label = "辺 b";
 
-      steps.push(`b² = c² − a²`);
+
+      steps.push(
+        "b² = c² − a²"
+      );
+
       steps.push(
         `b² = ${cleanNumber(c)}² − ${cleanNumber(a)}²`
       );
+
       steps.push(
         `b² = ${cleanNumber(c*c - a*a)}`
       );
+
       steps.push(
-        `b = √${cleanNumber(c*c - a*a)}`
+        `b = ${simplifySqrt(c*c - a*a)}`
       );
-      steps.push(`b = ${cleanNumber(answer)}`);
+
     }
 
-  } else {
+  }
 
-    const x = Number(document.getElementById("known").value);
-    const y = Number(document.getElementById("known2").value);
 
-    if (!x || !y || x <= 0 || y <= 0) {
-      showError("2つの辺を正しく入力してください。");
+  /* 1辺＋条件 */
+
+  else {
+
+    const x =
+      parseMathValue(
+        document.getElementById("known").value
+      );
+
+    const y =
+      parseMathValue(
+        document.getElementById("known2").value
+      );
+
+
+    if (
+      !Number.isFinite(x) ||
+      !Number.isFinite(y) ||
+      x <= 0 ||
+      y <= 0
+    ) {
+
+      showError(
+        "2つの辺を正しく入力してください。"
+      );
+
       return;
     }
 
-    // ここでは斜辺が x と仮定
+
+    /*
+      大きい方を斜辺として扱う
+    */
+
     if (x > y) {
+
       c = x;
       a = y;
-      answer = Math.sqrt(c*c - a*a);
-      label = "もう一方の直角辺";
 
-      if (answer <= 0) {
-        showError("入力値では直角三角形を作れません。");
+      if (c <= a) {
+
+        showError(
+          "直角三角形を作れません。"
+        );
+
         return;
       }
 
-      steps.push(`求める辺² = 斜辺² − 既知の辺²`);
+      answer =
+        Math.sqrt(c*c - a*a);
+
+      label = "もう一方の直角辺";
+
+
+      steps.push(
+        "求める辺² = 斜辺² − 既知の辺²"
+      );
+
       steps.push(
         `求める辺² = ${cleanNumber(c)}² − ${cleanNumber(a)}²`
       );
+
       steps.push(
         `求める辺² = ${cleanNumber(c*c-a*a)}`
       );
+
       steps.push(
-        `求める辺 = ${cleanNumber(answer)}`
+        `求める辺 = ${simplifySqrt(c*c-a*a)}`
       );
 
-    } else {
+    }
+
+    else {
+
       a = x;
       b = y;
-      answer = Math.sqrt(a*a + b*b);
+
+      answer =
+        Math.sqrt(a*a + b*b);
+
       label = "斜辺";
 
-      steps.push(`c² = a² ＋ b²`);
+
+      steps.push(
+        "c² = a² ＋ b²"
+      );
+
       steps.push(
         `c² = ${cleanNumber(a)}² ＋ ${cleanNumber(b)}²`
       );
+
       steps.push(
         `c² = ${cleanNumber(a*a+b*b)}`
       );
-      steps.push(`c = ${cleanNumber(answer)}`);
+
+      steps.push(
+        `c = ${simplifySqrt(a*a+b*b)}`
+      );
+
     }
+
   }
 
-  showResult(answer, label, steps);
+
+  showResult(
+    answer,
+    label,
+    steps
+  );
 }
 
-function showResult(answer, label, steps) {
 
-  const result = document.getElementById("result");
+/* =========================
+   結果表示
+========================= */
+
+function showResult(
+  answer,
+  label,
+  steps
+) {
+
+  const result =
+    document.getElementById("result");
 
   result.classList.add("show");
 
-  document.getElementById("answerLabel").textContent = label;
 
-  document.getElementById("answerNumber").textContent =
+  document.getElementById(
+    "answerLabel"
+  ).textContent = label;
+
+
+  document.getElementById(
+    "answerNumber"
+  ).textContent =
     cleanNumber(answer);
 
-  // 完全平方数でない場合の平方根表示
-  const squared = answer * answer;
-  const rounded = Math.round(squared);
 
-  if (Math.abs(squared - rounded) < 1e-8 &&
-      !Number.isInteger(answer)) {
+  /*
+    √表記
+  */
 
-    document.getElementById("exactNumber").textContent =
-      "＝ " + sqrtExact(rounded);
+  const exact =
+    simplifySqrt(
+      answer * answer
+    );
+
+  if (
+    exact &&
+    exact !== cleanNumber(answer)
+  ) {
+
+    document.getElementById(
+      "exactNumber"
+    ).textContent =
+      "√表記： " + exact;
 
   } else {
-    document.getElementById("exactNumber").textContent = "";
+
+    document.getElementById(
+      "exactNumber"
+    ).textContent = "";
+
   }
 
-  document.getElementById("steps").innerHTML =
-    steps.map((s, i) =>
-      `<div class="step">${i+1}. ${s}</div>`
+
+  document.getElementById(
+    "steps"
+  ).innerHTML =
+    steps.map(
+      (step, index) =>
+
+      `<div class="step">
+        ${index + 1}. ${step}
+      </div>`
+
     ).join("");
 
-  document.getElementById("triangleInfo").innerHTML =
-    "✅ 計算完了！答えを確認してください。";
+
+  document.getElementById(
+    "triangleInfo"
+  ).textContent =
+    "✅ 計算完了！";
+
 
   result.scrollIntoView({
     behavior: "smooth",
@@ -745,48 +1416,48 @@ function showResult(answer, label, steps) {
   });
 }
 
-function getValue(id) {
 
-  const value = document.getElementById(id).value;
-
-  if (value === "") return null;
-
-  return Number(value);
-}
-
-function showError(message) {
-
-  const error = document.getElementById("error");
-
-  error.textContent = "⚠️ " + message;
-  error.classList.add("show");
-}
-
-function resetAll() {
-
-  document.querySelectorAll("input").forEach(input => {
-    input.value = "";
-  });
-
-  document.getElementById("result").classList.remove("show");
-  document.getElementById("error").classList.remove("show");
-}
+/* =========================
+   例
+========================= */
 
 function example(a,b,c) {
 
-  document.getElementById("a").value =
-    a ?? "";
-
-  document.getElementById("b").value =
-    b ?? "";
-
-  document.getElementById("c").value =
-    c ?? "";
-
   setMode("two");
+
+  document.getElementById("a").value = a;
+  document.getElementById("b").value = b;
+  document.getElementById("c").value = c;
 
   calculate();
 }
+
+
+/* =========================
+   リセット
+========================= */
+
+function resetAll() {
+
+  document.querySelectorAll(
+    "input"
+  ).forEach(
+    input => input.value = ""
+  );
+
+  document.getElementById(
+    "result"
+  ).classList.remove("show");
+
+  document.getElementById(
+    "error"
+  ).classList.remove("show");
+}
+
+
+/* =========================
+   ダークモード
+========================= */
 
 function toggleTheme() {
 
@@ -795,16 +1466,55 @@ function toggleTheme() {
   const dark =
     document.body.classList.contains("dark");
 
-  document.getElementById("themeBtn").textContent =
+  document.getElementById(
+    "themeBtn"
+  ).textContent =
     dark ? "☀️" : "🌙";
 
-  localStorage.setItem("theme", dark ? "dark" : "light");
+  localStorage.setItem(
+    "theme",
+    dark ? "dark" : "light"
+  );
 }
 
-if (localStorage.getItem("theme") === "dark") {
+
+/* =========================
+   保存したテーマ
+========================= */
+
+if (
+  localStorage.getItem("theme")
+  === "dark"
+) {
+
   document.body.classList.add("dark");
-  document.getElementById("themeBtn").textContent = "☀️";
+
+  document.getElementById(
+    "themeBtn"
+  ).textContent = "☀️";
 }
+
+
+/* =========================
+   Enterで計算
+========================= */
+
+document.querySelectorAll(
+  "input"
+).forEach(input => {
+
+  input.addEventListener(
+    "keydown",
+    event => {
+
+      if (event.key === "Enter") {
+        calculate();
+      }
+
+    }
+  );
+
+});
 
 </script>
 
